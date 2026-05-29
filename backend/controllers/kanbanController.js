@@ -11,7 +11,8 @@ exports.getBoards = async (req, res) => {
       order: [
         ['id', 'ASC'],
         [{ model: Column, as: 'columns' }, 'id', 'ASC'],
-        [{ model: Column, as: 'columns' }, { model: Card, as: 'cards' }, 'order', 'ASC']
+        [{ model: Column, as: 'columns' }, { model: Card, as: 'cards' }, 'order', 'ASC'],
+        [{ model: Column, as: 'columns' }, { model: Card, as: 'cards' }, 'id', 'ASC']
       ]
     });
 
@@ -98,7 +99,12 @@ exports.deleteColumn = async (req, res) => {
 exports.createCard = async (req, res) => {
   try {
     const { title, description, columnId } = req.body;
-    const card = await Card.create({ title, description, columnId });
+    const maxOrderCard = await Card.findOne({
+      where: { columnId },
+      order: [['order', 'DESC']]
+    });
+    const nextOrder = maxOrderCard ? maxOrderCard.order + 1 : 0;
+    const card = await Card.create({ title, description, columnId, order: nextOrder });
     res.status(201).json(card);
   } catch (error) {
     res.status(500).json({ error: error.message });
