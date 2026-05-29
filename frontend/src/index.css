@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Paleta Light - Cores Modernas e Suaves */
+  --text: #475569;         /* Slate-600 */
+  --text-h: #0f172a;       /* Slate-900 */
+  --bg: #f8fafc;           /* Slate-50 */
+  --border: #e2e8f0;       /* Slate-200 */
+  --code-bg: #f1f5f9;      /* Slate-100 */
+  --accent: #4f46e5;       /* Indigo-600 */
+  --accent-bg: rgba(79, 70, 229, 0.06);
+  --accent-border: rgba(79, 70, 229, 0.25);
+  --social-bg: rgba(241, 245, 249, 0.8);
+  --shadow:
+    rgba(15, 23, 42, 0.05) 0px 10px 25px -5px, rgba(15, 23, 42, 0.02) 0px 4px 10px -2px;
+
+  --sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --heading: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 16px/150% var(--sans);
+  letter-spacing: -0.01em;
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 15px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Paleta Dark - Sleek Dark Deep Blue */
+    --text: #94a3b8;       /* Slate-400 */
+    --text-h: #f8fafc;     /* Slate-50 */
+    --bg: #090d16;         /* Slate-950 escuro e profundo */
+    --border: #1e293b;     /* Slate-800 */
+    --code-bg: #1e293b;    /* Slate-800 */
+    --accent: #818cf8;     /* Indigo-400 */
+    --accent-bg: rgba(129, 140, 248, 0.1);
+    --accent-border: rgba(129, 140, 248, 0.35);
+    --social-bg: rgba(30, 41, 59, 0.7);
+    --shadow:
+      rgba(0, 0, 0, 0.5) 0px 15px 35px -5px, rgba(0, 0, 0, 0.25) 0px 5px 15px -2px;
+  }
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  overflow: hidden;
+  height: 100vh;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--heading);
+  font-weight: 700;
+  color: var(--text-h);
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 48px;
+  line-height: 110%;
+  margin: 24px 0;
+  @media (max-width: 1024px) {
+    font-size: 32px;
+  }
+}
+
+h2 {
+  font-size: 22px;
+  line-height: 120%;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 18px;
+  }
+}
+
+p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 14px;
+  padding: 2px 6px;
+  background: var(--code-bg);
+  border-radius: 4px;
+  color: var(--accent);
+}
+
+/* Efeito Glassmorphism Classe Auxiliar */
+.glass-effect {
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  background-color: rgba(var(--bs-body-bg-rgb), 0.8);
+  border: 1px solid rgba(var(--bs-border-color-translucent), 0.5);
+}
