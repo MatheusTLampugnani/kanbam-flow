@@ -1,28 +1,28 @@
-# 🚀 KanbanFlow - Gestão de Projetos e Fluxo de Trabalho
+# KanbanFlow - Gestão de Projetos e Fluxo de Trabalho
 
 Uma plataforma corporativa full-stack de **Kanban Premium** projetada para gerenciar fluxos de trabalho, tarefas, colaboradores e prazos de forma robusta e altamente customizável. O **KanbanFlow** foi desenvolvido sob conceitos modernos de design de produto (SaaS), trazendo uma estética de vidro fosco (*glassmorphism*), tema escuro profundo (*sleek dark*), alto nível de responsividade móvel e controle total de propriedades dinâmicas.
 
 ---
 
-## 🛠️ Stack Tecnológica
+## Stack Tecnológica
 
 O projeto é estruturado em uma arquitetura monorepo segregada entre **Backend** e **Frontend**:
 
-### 💻 Frontend (Cliente)
+### Frontend
 - **Core:** [React 19](https://react.dev/) + [Vite](https://vite.dev/) (Compilação ultra-rápida em menos de 500ms).
 - **Drag & Drop:** [@hello-pangea/dnd](https://github.com/hello-pangea/dnd) (Fork moderno, estável e otimizado do React-Beautiful-DnD com suporte completo a React 18 e 19).
 - **Estilização & Temas:** Vanilla CSS3 + Custom CSS Tokens (HSL) integrado ao [Bootstrap 5](https://getbootstrap.com/) com suporte dinâmico a Temas Claro e Escuro nativos.
 - **Ícones:** [Lucide React](https://lucide.dev/).
 - **Comunicação API:** Axios com tratamento centralizado de tokens de autenticação (JWT) e redirecionamento de segurança.
 
-### ⚙️ Backend (Servidor)
+### Backend
 - **Runtime:** [Node.js](https://nodejs.org/) com [Express](https://expressjs.com/).
 - **Banco de Dados & ORM:** [Sequelize](https://sequelize.org/) integrado de forma rígida ao **PostgreSQL** (hospedado no Supabase).
 - **Autenticação:** JWT (JSON Web Tokens) com decodificação automática base64 no cliente e criptografia de senhas via `bcrypt`.
 
 ---
 
-## 💎 Recursos de Destaque (Premium Features)
+## Recursos de Destaque
 
 ### 1. Painel 100% Personalizável (Campos Customizados Dinâmicos)
 Diferente dos kanbans rígidos tradicionais, o KanbanFlow inicia com um **painel de detalhes do cartão limpo e minimalista**. Os gestores possuem total liberdade para criar a estrutura que melhor se adapta à sua empresa:
@@ -56,7 +56,7 @@ Garante que a gerência possa acompanhar o fluxo diretamente da tela do celular 
 
 ---
 
-## 🔧 Como Executar o Projeto Localmente
+## Como Executar o Projeto Localmente
 
 ### Pré-requisitos
 Certifique-se de ter o [Node.js](https://nodejs.org/) instalado em sua máquina.
@@ -104,21 +104,3 @@ npm run dev
 O aplicativo estará acessível em **[http://localhost:5173](http://localhost:5173)**.
 
 ---
-
-## 📦 Comandos Úteis do Git
-
-Para salvar suas alterações e enviar para o repositório remoto Git:
-
-```bash
-# Adicionar todas as alterações
-git add .
-
-# Criar commit com as atualizações
-git commit -m "feat: melhorias visuais premium e responsividade mobile"
-
-# Configurar a branch principal (caso não esteja)
-git branch -M main
-
-# Enviar as alterações para o GitHub
-git push -u origin main
-```
