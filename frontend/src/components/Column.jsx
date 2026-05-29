@@ -13,12 +13,21 @@ export default function Column({ column, cards, onAddCard, onDeleteCard, onUpdat
   const [taskTitle, setTaskTitle] = useState('');
   const textareaRef = useRef(null);
 
+  const listRef = useRef(null);
+
   // Auto-focus na textarea de nova tarefa
   useEffect(() => {
     if (isAdding && textareaRef.current) {
       textareaRef.current.focus();
     }
   }, [isAdding]);
+
+  // Rola para o final da lista quando uma nova tarefa é adicionada
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.scrollTop = listRef.current.scrollHeight;
+    }
+  }, [cards.length]);
 
   // Funções da Coluna
   const saveTitle = () => {
@@ -121,7 +130,10 @@ export default function Column({ column, cards, onAddCard, onDeleteCard, onUpdat
           {(provided, snapshot) => (
             <div
               className="card-body card-list p-2"
-              ref={provided.innerRef}
+              ref={(el) => {
+                provided.innerRef(el);
+                listRef.current = el;
+              }}
               {...provided.droppableProps}
               style={{ 
                 backgroundColor: snapshot.isDraggingOver ? 'rgba(79, 70, 229, 0.05)' : 'transparent',
@@ -144,15 +156,15 @@ export default function Column({ column, cards, onAddCard, onDeleteCard, onUpdat
         </Droppable>
 
         {/* Footer: Adicionar Cartão */}
-        <div className="card-footer bg-transparent border-0 pt-0 pb-3.5 px-2.5 mt-auto">
+        <div className="card-footer bg-transparent border-0 pt-0 pb-3 px-2 mt-auto">
           {isAdding ? (
-            <div className="bg-body p-2.5 rounded shadow-sm border" style={{
+            <div className="bg-body p-2 rounded shadow-sm border" style={{
               borderRadius: '10px',
               border: '1px solid rgba(var(--bs-border-color-rgb), 0.6) !important'
             }}>
               <textarea
                 ref={textareaRef}
-                className="form-control border-0 p-1 mb-2.5 shadow-none bg-transparent text-body"
+                className="form-control border-0 p-1 mb-2 shadow-none bg-transparent text-body"
                 placeholder="Insira um título..."
                 value={taskTitle}
                 onChange={(e) => setTaskTitle(e.target.value)}

@@ -283,6 +283,9 @@ function App() {
         (card.description && card.description.toLowerCase().includes(searchTerm.toLowerCase()));
       const matchesPriority = filterPriority ? card.priority === filterPriority : true;
       return matchesSearch && matchesPriority;
+    }).sort((a, b) => {
+      if (a.order !== b.order) return a.order - b.order;
+      return a.id - b.id;
     });
     return { ...column, cards: filteredCards };
   });

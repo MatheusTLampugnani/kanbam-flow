@@ -26,7 +26,7 @@ export default function CardItem({ card, index, onDelete, onEditClick }) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className={`card border-1 mb-2 ${snapshot.isDragging ? 'shadow-lg border-primary border-opacity-50' : 'shadow-sm'}`}
+          className={`card border-1 ${snapshot.isDragging ? 'shadow-lg border-primary border-opacity-50' : 'shadow-sm'}`}
           style={{
             ...provided.draggableProps.style,
             cursor: snapshot.isDragging ? 'grabbing' : 'grab',
@@ -34,11 +34,11 @@ export default function CardItem({ card, index, onDelete, onEditClick }) {
           }}
           onClick={() => onEditClick(card)}
         >
-          <div className="card-body p-3">
+          <div className="card-body p-2.5 px-3">
             
             {/* ETIQUETAS DO CARTÃO */}
             {card.tags && card.tags.length > 0 && (
-              <div className="d-flex flex-wrap gap-1 mb-2.5">
+              <div className="d-flex flex-wrap gap-1 mb-2">
                 {card.tags.map(tag => (
                   <span 
                     key={tag.id} 
@@ -59,7 +59,7 @@ export default function CardItem({ card, index, onDelete, onEditClick }) {
               </div>
             )}
             
-            <div className="d-flex justify-content-between align-items-center mb-2.5">
+            <div className="d-flex justify-content-between align-items-center mb-2">
               <span className={`badge rounded-pill ${badgeClass}`} style={{ fontSize: '0.68rem', padding: '3px 8px' }}>
                 {card.priority || 'Média'}
               </span>
@@ -68,13 +68,13 @@ export default function CardItem({ card, index, onDelete, onEditClick }) {
               </div>
             </div>
 
-            <h6 className="card-title fw-bold mb-2.5" style={{ fontSize: '0.92rem', letterSpacing: '-0.015em' }}>
+            <h6 className="card-title fw-bold mb-2" style={{ fontSize: '0.92rem', letterSpacing: '-0.015em' }}>
               {card.title}
             </h6>
             
             {/* Ícones de Metadados (Descrição e Checklist) */}
             {(card.description || hasChecklist) && (
-              <div className="d-flex gap-3 text-secondary mb-2.5" style={{ opacity: 0.8 }}>
+              <div className="d-flex gap-3 text-secondary mb-2" style={{ opacity: 0.8 }}>
                 {card.description && (
                   <div className="d-flex align-items-center gap-1.5" title="Possui descrição" style={{ fontSize: '0.75rem' }}>
                     <AlignLeft size={13} className="text-muted" />
@@ -90,7 +90,7 @@ export default function CardItem({ card, index, onDelete, onEditClick }) {
               </div>
             )}
             
-            <div className="d-flex justify-content-between align-items-center border-top pt-2.5 mt-2.5 border-secondary border-opacity-10">
+            <div className="d-flex justify-content-between align-items-center border-top pt-2 mt-2 border-secondary border-opacity-10">
               <small className="text-muted text-truncate w-75 d-flex align-items-center gap-1" style={{ fontSize: '0.72rem', fontWeight: '500' }}>
                 {card.assignee ? (
                   <>
