@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const { sequelize, User } = require('./models'); 
@@ -11,6 +12,14 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api', routes);
+
+// Servir os arquivos estáticos da pasta 'dist' do frontend
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+// Qualquer rota que não seja da API, o Node devolve o index.html do React
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
 
 const PORT = process.env.PORT || 3000;
 
