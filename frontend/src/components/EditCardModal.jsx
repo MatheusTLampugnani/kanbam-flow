@@ -57,8 +57,9 @@ export default function EditCardModal({ card, board, currentUser, users = [], sh
   const removeChecklistItem = (id) => setChecklist(checklist.filter(item => item.id !== id));
 
   const addTag = () => {
-    if (!newTagText.trim()) return;
-    setTags([...tags, { id: Date.now().toString(), text: newTagText.trim(), color: newTagColor }]);
+    // Permite criar etiquetas apenas com cor (sem necessidade de texto)
+    const textValue = newTagText.trim();
+    setTags([...tags, { id: Date.now().toString(), text: textValue, color: newTagColor }]);
     setNewTagText('');
   };
   const removeTag = (id) => setTags(tags.filter(t => t.id !== id));
@@ -209,6 +210,131 @@ export default function EditCardModal({ card, board, currentUser, users = [], sh
 
                 {/* Painel Lateral de Propriedades */}
                 <div className="col-md-4 bg-body-tertiary border-start p-4 card-details-sidebar">
+                  <h6 className="text-muted fw-bold mb-3" style={{ fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Propriedades do Cartão</h6>
+                  
+                  <div className="d-flex flex-column gap-3 mb-4">
+                    {/* Responsável */}
+                    <div className="p-2.5 rounded bg-body bg-opacity-50 border border-secondary border-opacity-10" style={{ borderRadius: '10px' }}>
+                      <label className="text-secondary fw-bold small mb-1.5 d-flex align-items-center gap-1.5" style={{ fontSize: '0.75rem', opacity: 0.95 }}>
+                        <User size={13} /> Responsável
+                      </label>
+                      <select 
+                        className="form-select form-select-sm shadow-none bg-body text-body border-secondary border-opacity-20 py-1.5" 
+                        value={assignee} 
+                        onChange={(e) => setAssignee(e.target.value)}
+                        style={{ borderRadius: '8px' }}
+                      >
+                        <option value="">Ninguém</option>
+                        {users.map(u => (
+                          <option key={u.id} value={u.name}>{u.name}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Prioridade */}
+                    <div className="p-2.5 rounded bg-body bg-opacity-50 border border-secondary border-opacity-10" style={{ borderRadius: '10px' }}>
+                      <label className="text-secondary fw-bold small mb-1.5 d-flex align-items-center gap-1.5" style={{ fontSize: '0.75rem', opacity: 0.95 }}>
+                        <AlignLeft size={13} /> Prioridade
+                      </label>
+                      <select 
+                        className="form-select form-select-sm shadow-none bg-body text-body border-secondary border-opacity-20 py-1.5" 
+                        value={priority} 
+                        onChange={(e) => setPriority(e.target.value)}
+                        style={{ borderRadius: '8px' }}
+                      >
+                        <option value="Baixa">Baixa</option>
+                        <option value="Média">Média</option>
+                        <option value="Alta">Alta</option>
+                        <option value="Urgente">Urgente</option>
+                      </select>
+                    </div>
+
+                    {/* Data de Vencimento */}
+                    <div className="p-2.5 rounded bg-body bg-opacity-50 border border-secondary border-opacity-10" style={{ borderRadius: '10px' }}>
+                      <label className="text-secondary fw-bold small mb-1.5 d-flex align-items-center gap-1.5" style={{ fontSize: '0.75rem', opacity: 0.95 }}>
+                        <Clock size={13} /> Prazo de Entrega
+                      </label>
+                      <input 
+                        type="date" 
+                        className="form-control form-control-sm shadow-none bg-body text-body border-secondary border-opacity-20 py-1.5" 
+                        value={dueDate} 
+                        onChange={(e) => setDueDate(e.target.value)}
+                        style={{ borderRadius: '8px' }}
+                      />
+                    </div>
+
+                    {/* Etiquetas */}
+                    <div className="p-2.5 rounded bg-body bg-opacity-50 border border-secondary border-opacity-10" style={{ borderRadius: '10px' }}>
+                      <label className="text-secondary fw-bold small mb-1.5 d-flex align-items-center gap-1.5" style={{ fontSize: '0.75rem', opacity: 0.95 }}>
+                        <Tag size={13} /> Etiquetas
+                      </label>
+                      
+                      {/* Lista de Etiquetas Ativas */}
+                      {tags.length > 0 && (
+                        <div className="d-flex flex-wrap gap-1 mb-2">
+                          {tags.map(t => (
+                            <span 
+                              key={t.id} 
+                              className="badge d-inline-flex align-items-center gap-1 text-white fw-bold" 
+                              style={{ backgroundColor: t.color, fontSize: '0.68rem', padding: '3px 8px', borderRadius: '4px' }}
+                            >
+                              {t.text || '\u00A0\u00A0'}
+                              <button 
+                                type="button" 
+                                className="btn p-0 border-0 bg-transparent text-white d-flex align-items-center" 
+                                onClick={() => removeTag(t.id)}
+                                style={{ fontSize: '10px', lineHeight: 1 }}
+                              >
+                                <X size={10} />
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Criador de Etiquetas Inline */}
+                      <div className="p-2 border rounded bg-body bg-opacity-25" style={{ fontSize: '0.8rem', borderRadius: '8px' }}>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm mb-2 shadow-none bg-body text-body border-secondary border-opacity-20"
+                          placeholder="Nova etiqueta..."
+                          value={newTagText}
+                          onChange={(e) => setNewTagText(e.target.value)}
+                          style={{ borderRadius: '6px' }}
+                        />
+                        <div className="d-flex flex-wrap gap-1.5 mb-2.5 justify-content-center">
+                          {presetColors.map(color => (
+                            <button
+                              key={color}
+                              type="button"
+                              className="rounded-circle border-0"
+                              onClick={() => setNewTagColor(color)}
+                              style={{
+                                width: '18px',
+                                height: '18px',
+                                backgroundColor: color,
+                                transform: newTagColor === color ? 'scale(1.2)' : 'none',
+                                outline: newTagColor === color ? '2px solid var(--accent)' : 'none',
+                                transition: 'all 0.15s ease'
+                              }}
+                            />
+                          ))}
+                        </div>
+                        <button 
+                          type="button" 
+                          className="btn btn-outline-secondary btn-sm w-100 fw-bold py-1" 
+                          onClick={addTag}
+                          style={{ borderRadius: '6px', fontSize: '0.75rem' }}
+                        >
+                          + Adicionar Etiqueta
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <hr className="my-3 border-secondary opacity-15" />
+
                   <h6 className="text-muted fw-bold mb-4" style={{ fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Propriedades Personalizadas</h6>
 
                   <div className="d-flex flex-column gap-3">

@@ -30,7 +30,12 @@ export default function CardItem({ card, index, onDelete, onEditClick }) {
           style={{
             ...provided.draggableProps.style,
             cursor: snapshot.isDragging ? 'grabbing' : 'grab',
-            backgroundColor: 'rgba(var(--bs-body-bg-rgb), 0.85)',
+            backgroundColor: card.tags && card.tags.length > 0 
+              ? `color-mix(in srgb, ${card.tags[0].color} 12%, rgba(var(--bs-body-bg-rgb), 0.85))` 
+              : 'rgba(var(--bs-body-bg-rgb), 0.85)',
+            borderLeft: card.tags && card.tags.length > 0 
+              ? `5px solid ${card.tags[0].color}` 
+              : undefined,
           }}
           onClick={() => onEditClick(card)}
         >
@@ -53,7 +58,7 @@ export default function CardItem({ card, index, onDelete, onEditClick }) {
                       boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                     }}
                   >
-                    {tag.text}
+                    {tag.text || '\u00A0\u00A0'}
                   </span>
                 ))}
               </div>
@@ -91,21 +96,29 @@ export default function CardItem({ card, index, onDelete, onEditClick }) {
             )}
             
             <div className="d-flex justify-content-between align-items-center border-top pt-2 mt-2 border-secondary border-opacity-10">
-              <small className="text-muted text-truncate w-75 d-flex align-items-center gap-1" style={{ fontSize: '0.72rem', fontWeight: '500' }}>
-                {card.assignee ? (
-                  <>
-                    <span className="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold" style={{ width: '16px', height: '16px', fontSize: '0.55rem' }}>
+              <div className="d-flex flex-wrap align-items-center gap-2 text-muted w-75 overflow-hidden">
+                {card.assignee && (
+                  <div className="d-flex align-items-center gap-1 text-truncate" title={`Responsável: ${card.assignee}`}>
+                    <span className="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold flex-shrink-0" style={{ width: '16px', height: '16px', fontSize: '0.55rem' }}>
                       {card.assignee.charAt(0).toUpperCase()}
                     </span>
-                    <span className="text-truncate">{card.assignee}</span>
-                  </>
-                ) : (
-                  <>
-                    <Calendar size={11} className="opacity-60" />
-                    <span>#{card.id} • {new Date(card.createdAt).toLocaleDateString('pt-BR')}</span>
-                  </>
+                    <span className="text-truncate" style={{ fontSize: '0.72rem', fontWeight: '600' }}>{card.assignee}</span>
+                  </div>
                 )}
-              </small>
+                {card.dueDate ? (
+                  <div className="d-flex align-items-center gap-1 text-warning-emphasis fw-semibold" style={{ fontSize: '0.72rem' }} title="Prazo de entrega">
+                    <Calendar size={11} className="opacity-75" />
+                    <span>{new Date(card.dueDate).toLocaleDateString('pt-BR')}</span>
+                  </div>
+                ) : (
+                  !card.assignee && (
+                    <div className="d-flex align-items-center gap-1 text-secondary opacity-75" style={{ fontSize: '0.7rem' }}>
+                      <Calendar size={11} className="opacity-60" />
+                      <span>#{card.id} • {new Date(card.createdAt).toLocaleDateString('pt-BR')}</span>
+                    </div>
+                  )
+                )}
+              </div>
               <button 
                 className="btn btn-link p-0 text-secondary border-0 shadow-none d-flex" 
                 onClick={(e) => { e.stopPropagation(); onDelete(card.id); }}
